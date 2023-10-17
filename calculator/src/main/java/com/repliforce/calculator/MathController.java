@@ -14,8 +14,20 @@ public class MathController {
         method = RequestMethod.GET)
     public Double sum(
             @PathVariable(value = "number1") String number1,
-            @PathVariable(value = "number2") String number2) {
-        return 1D;
+            @PathVariable(value = "number2") String number2)
+    throws Exception{
+        if (!isNumeric(number1) || !isNumeric(number2)){
+            throw new Exception();
+        }
+        return convertToDouble(number1) + convertToDouble(number2);
+    }
+
+    private Double convertToDouble(String stringNumber) {
+        return null;
+    }
+
+    private boolean isNumeric(String StringNumber) {
+        return false;
     }
 
 }

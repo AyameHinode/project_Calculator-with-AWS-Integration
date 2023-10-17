@@ -23,11 +23,16 @@ public class MathController {
     }
 
     private Double convertToDouble(String stringNumber) {
-        return null;
+        if (stringNumber == null) return 0D;
+        String number = stringNumber.replaceAll(",", ".");
+        if (isNumeric(number)) return Double.parseDouble(number);
+        return 0D;
     }
 
-    private boolean isNumeric(String StringNumber) {
-        return false;
+    private boolean isNumeric(String stringNumber) {
+        if (stringNumber == null) return false;
+        String number = stringNumber.replaceAll(",", ".");
+        return number.matches("[-+]?[0-9]*\\.?[0-9]+");
     }
 
 }

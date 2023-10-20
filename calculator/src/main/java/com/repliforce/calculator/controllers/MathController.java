@@ -1,14 +1,20 @@
-package com.repliforce.calculator;
+package com.repliforce.calculator.controllers;
 
 
 
+import com.repliforce.calculator.math.BasicOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import static com.repliforce.calculator.converters.NumberConverters.convertToDouble;
+import static com.repliforce.calculator.converters.NumberConverters.isNumeric;
+
 @RestController
 public class MathController {
     private final AtomicLong idGenerator = new AtomicLong();
+
+    private BasicOperations basicOperations = new BasicOperations();
 
     @RequestMapping(value = "/sum/{number1}/{number2}",
         method = RequestMethod.GET)
@@ -19,7 +25,7 @@ public class MathController {
         if (!isNumeric(number1) || !isNumeric(number2)){
             throw new UnsupportedOperationException("Please enter with a numeric value!");
         }
-        return convertToDouble(number1) + convertToDouble(number2);
+        return basicOperations.sum(convertToDouble(number1), convertToDouble(number2));
     }
 
     @RequestMapping(value = "/sub/{number1}/{number2}",
@@ -31,7 +37,7 @@ public class MathController {
         if (!isNumeric(number1) || !isNumeric(number2)){
             throw new UnsupportedOperationException("Please enter with a numeric value!");
         }
-        return convertToDouble(number1) - convertToDouble(number2);
+        return basicOperations.sub(convertToDouble(number1), convertToDouble(number2));
     }
 
     @RequestMapping(value = "/mul/{number1}/{number2}",
@@ -43,7 +49,7 @@ public class MathController {
         if (!isNumeric(number1) || !isNumeric(number2)){
             throw new UnsupportedOperationException("Please enter with a numeric value!");
         }
-        return convertToDouble(number1) * convertToDouble(number2);
+        return basicOperations.mul(convertToDouble(number1), convertToDouble(number2));
     }
 
     @RequestMapping(value = "/div/{number1}/{number2}",
@@ -55,7 +61,7 @@ public class MathController {
         if (!isNumeric(number1) || !isNumeric(number2)){
             throw new UnsupportedOperationException("Please enter with a numeric value!");
         }
-        return convertToDouble(number1) / convertToDouble(number2);
+        return basicOperations.div(convertToDouble(number1), convertToDouble(number2));
     }
 
     @RequestMapping(value = "/mean/{number1}/{number2}",
@@ -67,7 +73,7 @@ public class MathController {
         if (!isNumeric(number1) || !isNumeric(number2)){
             throw new UnsupportedOperationException("Please enter with a numeric value!");
         }
-        return (convertToDouble(number1) + convertToDouble(number2))/2;
+        return basicOperations.mean(convertToDouble(number1), convertToDouble(number2));
     }
 
     @RequestMapping(value = "/sqrt/{number1}",
@@ -78,20 +84,7 @@ public class MathController {
         if (!isNumeric(number1)){
             throw new UnsupportedOperationException("Please enter with a numeric value!");
         }
-        return Math.sqrt(convertToDouble(number1));
-    }
-
-    private Double convertToDouble(String stringNumber) {
-        if (stringNumber == null) return 0D;
-        String number = stringNumber.replaceAll(",", ".");
-        if (isNumeric(number)) return Double.parseDouble(number);
-        return 0D;
-    }
-
-    private boolean isNumeric(String stringNumber) {
-        if (stringNumber == null) return false;
-        String number = stringNumber.replaceAll(",", ".");
-        return number.matches("[-+]?[0-9]*\\.?[0-9]+");
+        return basicOperations.squareRoot(convertToDouble(number1));
     }
 
 }

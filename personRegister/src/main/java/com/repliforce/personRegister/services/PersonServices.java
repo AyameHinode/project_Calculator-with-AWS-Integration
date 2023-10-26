@@ -1,15 +1,13 @@
 package com.repliforce.personRegister.services;
 
+import com.repliforce.personRegister.data.vo.v1.PersonVO;
 import com.repliforce.personRegister.exceptions.ResourceNotFoundException;
 import com.repliforce.personRegister.model.Person;
 import com.repliforce.personRegister.repositories.PersonRepository;
-import org.hibernate.type.SpecialOneToOneType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service
@@ -20,16 +18,16 @@ public class PersonServices {
     @Autowired
     PersonRepository personRepository;
 
-    public List<Person> findAll(){
+    public List<PersonVO> findAll(){
         logger.info("Looking all registers");
         return personRepository.findAll();
     }
 
-    public Person findById(Long id){
+    public PersonVO findById(Long id){
 
         logger.info("Looking register...");
 
-        Person person = new Person();
+        PersonVO person = new PersonVO();
         person.setFirstName("Ayame");
         person.setLastName("Hinode");
         person.setAddress("UnitedStates");
@@ -39,14 +37,14 @@ public class PersonServices {
 
     }
 
-    public Person create(Person person){
+    public PersonVO create(PersonVO person){
 
         logger.info("Creating a register...");
         return personRepository.save(person);
 
     }
 
-    public Person update(Person person){
+    public PersonVO update(PersonVO person){
 
         logger.info("Updating a register");
         var entity = personRepository.findById(person.getId())

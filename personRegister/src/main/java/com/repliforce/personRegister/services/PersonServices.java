@@ -1,8 +1,10 @@
 package com.repliforce.personRegister.services;
 
 import com.repliforce.personRegister.data.vo.v1.PersonVO;
-import com.repliforce.personRegister.exceptions.ResourceNotFoundException;
 import com.repliforce.personRegister.model.Person;
+import com.repliforce.personRegister.exceptions.ResourceNotFoundException;
+import com.repliforce.personRegister.mappers.DozerMapper;
+
 import com.repliforce.personRegister.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,27 +22,23 @@ public class PersonServices {
 
     public List<PersonVO> findAll(){
         logger.info("Looking all registers");
-        return personRepository.findAll();
+        return DozerMapper.parseListObjects(personRepository.findAll(), PersonVO.class);
     }
 
     public PersonVO findById(Long id){
 
         logger.info("Looking register...");
-
-        PersonVO person = new PersonVO();
-        person.setFirstName("Ayame");
-        person.setLastName("Hinode");
-        person.setAddress("UnitedStates");
-        person.setGender("Female");
-        return personRepository.findById(id)
+        var person =  personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found"));
-
+        return DozerMapper.parseObject(person,PersonVO.class);
     }
 
     public PersonVO create(PersonVO person){
 
         logger.info("Creating a register...");
-        return personRepository.save(person);
+        var entity = DozerMapper.parseObject(person,Person.class);
+        var vo = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+        return vo;
 
     }
 
@@ -53,7 +51,8 @@ public class PersonServices {
         entity.setLastName(person.getLastName());
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
-        return personRepository.save(person);
+        var vo = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+        return vo;
 
     }
 

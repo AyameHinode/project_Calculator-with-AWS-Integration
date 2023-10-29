@@ -1,6 +1,7 @@
 package com.repliforce.personRegister.services;
 
 import com.repliforce.personRegister.data.vo.v1.PersonVO;
+import com.repliforce.personRegister.data.vo.v2.PersonVOv2;
 import com.repliforce.personRegister.model.Person;
 import com.repliforce.personRegister.exceptions.ResourceNotFoundException;
 import com.repliforce.personRegister.mappers.DozerMapper;
@@ -38,6 +39,15 @@ public class PersonServices {
         logger.info("Creating a register...");
         var entity = DozerMapper.parseObject(person,Person.class);
         var vo = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+        return vo;
+
+    }
+
+    public PersonVOv2 createV2(PersonVOv2 person){
+
+        logger.info("Creating a register...");
+        var entity = DozerMapper.parseObject(person,Person.class);
+        var vo = DozerMapper.parseObject(personRepository.save(entity), PersonVOv2.class);
         return vo;
 
     }

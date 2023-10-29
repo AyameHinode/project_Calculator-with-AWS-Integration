@@ -1,6 +1,7 @@
 package com.repliforce.personRegister.controllers;
 
 import com.repliforce.personRegister.data.vo.v1.PersonVO;
+import com.repliforce.personRegister.data.vo.v2.PersonVOv2;
 import com.repliforce.personRegister.model.Person;
 import com.repliforce.personRegister.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonVO create(@RequestBody PersonVO person){
         return service.create(person);
+    }
+
+    @PostMapping(value = "/v2", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVOv2 createV2(@RequestBody PersonVOv2 person){
+        return service.createV2(person);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
